@@ -4,9 +4,26 @@
 
 Chopper est un projet d'apprentissage visant à construire un assistant personnel capable de recommander des vêtements en fonction des préférences, du budget et du style de l'utilisateur.
 
+## 📁 Structure du projet
+
+```
+Chopper/
+├── docs/          → Documentation complète
+├── database/      → Scripts SQL (schema, migrations)
+├── data/          → Datasets JSON (produits)
+├── src/           → Code source API (ASP.NET Core)
+├── .gitignore
+└── README.md
+```
+
 ## 📚 Documentation
 
-- **[Cadre pédagogique](./CADRE_PEDAGOGIQUE.md)** : principes d'accompagnement pour ce projet
+Toute la documentation se trouve dans **[`docs/`](./docs/)**
+
+- **[Cadre pédagogique](./docs/CADRE_PEDAGOGIQUE.md)** : Règles de collaboration et approche d'apprentissage
+- **[Questions produit](./docs/QUESTIONS_PRODUIT.md)** : Décisions métier et architecture
+- **[Product Schema](./docs/PRODUCT_SCHEMA.md)** : Structure de données produit (JSON)
+- **[Progression](./docs/PROGRESSION.md)** : État d'avancement et prochaines étapes ⭐
 
 ## 🏗️ Architecture (à construire)
 

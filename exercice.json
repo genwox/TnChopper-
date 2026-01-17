@@ -1,3 +1,27 @@
 ﻿{
-
+  "id": 8,
+  "name": "Veste utilitaire",
+  "price": 159.00, 
+  "url": "https://www.arket.com/fr-fr/product/utility-jacket-black-1313727002/",
+  "image_url": "https://media.arket.com/assets/006/8c/46/8c46c7a9edb1f81e9a1246da09970b6b7d221fa6_lg-1.jpg",
+  "brand": "arket",
+  "category": "veste",
+  "sizes_available": ["XS", "S", "M", "L", "XL"], 
+  "styles": ["casual"]
 }
+
+{
+  "id": 9,
+  "name": "Maison Margiela MM6 RING",
+  "price": 174.99,
+  "url": "https://www.bstn.com/eu_fr/p/maison-margiela-mm6-ring-sm6uq0104-p8371-951-0333286?utm_source=google&utm_medium=cpc&utm_campaign=%5BFR%5D%20(PMAX)%20(smec)%20fr_Push&utm_id=17762695850&gad_source=1&gad_campaignid=17753500008&gbraid=0AAAAACOSED1FqCu6NNrxL3WJS3aYiL_Hb&gclid=Cj0KCQiAg63LBhDtARIsAJygHZ6OU_mlyC3PMAClpAw-ipJIMBcWx-jR0lThp8zv8H1mZz1OmkWY1fAaAt3vEALw_wcB",
+  "image_url": "https://img.bstn.com/eyJidWNrZXQiOiJic3RuLWltYWdlLXNlcnZlciIsImtleSI6ImNhdGFsb2cvcHJvZHVjdC9TTTZVUTAxMDQtUDgzNzEtOTUxL1NNNlVRMDEwNC1QODM3MS05NTEtMDEuanBnIiwiZWRpdHMiOnsicmVzaXplIjp7ImZpdCI6ImNvbnRhaW4iLCJ3aWR0aCI6MTYwMCwiaGVpZ2h0IjoyMDAwLCJiYWNrZ3JvdW5kIjp7InIiOjI1NSwiZyI6MjU1LCJiIjoyNTUsImFscGhhIjoxfX19fQ==",
+  "brand": "Maison Margiela ",
+  "category": "bijoux, bague",
+  "sizes_available": ["50 MM", "52 MM", "54 MM "],
+  "colors_available":[],
+  "styles": ["casual", "luxe"]
+}
+
+
+
