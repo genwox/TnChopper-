@@ -8,6 +8,7 @@ Ce fichier contient les **questions fondamentales** à répondre avant de concev
 
 ## 📋 Statut
 
+- [x] Section 1 (Problème métier) - En cours de complétion
 - [ ] Toutes les questions ont une réponse réfléchie
 - [ ] Les réponses ont été validées par un cas d'usage concret
 - [ ] L'architecture découle logiquement de ces réponses
@@ -22,14 +23,29 @@ Ce fichier contient les **questions fondamentales** à répondre avant de concev
 - [ ] Base de données statique (alimentée manuellement)
 - [ ] Scraping de sites marchands
 - [ ] API de partenaires e-commerce
-- [ ] Mix de plusieurs sources
+- [x] Mix de plusieurs sources
 - [ ] Autre : _____________
 
 **Ma réponse :**
-> _(à compléter)_
+> **Approche progressive (Option D) :**
+>
+> **Phase 1 (MVP - maintenant) :**
+> - Démarrer avec données statiques (50-100 produits)
+> - Mix de dataset public + saisie manuelle
+> - Focus sur la logique de recommandation
+>
+> **Phase 2 (évolution) :**
+> - Ajout d'APIs officielles d'affiliation (Amazon, Awin, CJ)
+> - Scraping léger si nécessaire (attention aspects légaux)
+> - Architecture permettant d'ajouter facilement de nouvelles sources
+>
+> **Décision clé :** ID produit interne d'abord (partage entre utilisateurs), puis ajout produits via URL externe plus tard.
 
 **Implications techniques :**
-> _(Comment cette réponse influence la base de données ? Les tâches planifiées ?)_
+> - **Architecture en couches :** Abstraction "ProductCatalog" permettant plusieurs sources de données
+> - **Base de données :** PostgreSQL avec structure flexible pour intégrer différentes sources
+> - **Tâches planifiées :** Pas immédiatement nécessaire (Phase 2)
+> - **Légalité :** Privilégier APIs officielles pour un projet publiable/vendable
 
 ---
 
@@ -138,6 +154,100 @@ Ce fichier contient les **questions fondamentales** à répondre avant de concev
 ```
 Utilisateur ─[relation]─> Produit
 ```
+
+---
+
+## 3️⃣ bis - Structure de données produit (décisions finales)
+
+### Champs de la table `Products`
+
+| Champ | Type | Obligatoire ? | Justification |
+|-------|------|---------------|---------------|
+| **id** | integer | ✅ Oui | Identifiant unique interne Chopper |
+| **name** | string | ✅ Oui | Impossible de présenter un produit sans nom |
+| **price** | decimal | ✅ Oui | Nécessaire pour filtrer par budget |
+| **url** | string | ✅ Oui | Lien vers le produit original (pour achat) |
+| **image_url** | string | ✅ Oui | Visuel essentiel pour la décision utilisateur |
+| **brand** | string | ✅ Oui | Confiance + découverte de nouvelles références |
+| **category** | string | ✅ Oui | Correspond à la demande utilisateur |
+| **sizes_available** | string[] | ✅ Oui | Savoir si achat immédiat possible |
+| **colors_available** | string[] | ❌ Non (NULL ok) | Utile mais pas toujours pertinent (ex: bijoux) |
+| **styles** | string[] | ❌ Non (NULL ok) | Important mais peut être enrichi via logique métier |
+
+### Décisions architecturales clés
+
+#### 1. Couleur : Optionnelle
+**Décision :** Champ `colors_available` peut être NULL
+
+**Raison :** Certains produits (bijoux, accessoires) n'ont pas de variation de couleur pertinente
+
+**Exemple :**
+```json
+{
+  "name": "Bague Margiela",
+  "colors_available": null
+}
+```
+
+---
+
+#### 2. Style : Optionnel avec enrichissement intelligent ⭐
+
+**Décision :** Champ `styles` peut être NULL MAIS logique de fallback basée sur marque/catégorie
+
+**Raison :** Accepter des produits sans style permet un catalogue plus large, tout en gardant la possibilité d'enrichir automatiquement
+
+**Logique d'enrichissement (à implémenter) :**
+```
+IF styles == NULL
+  → Regarder mapping marque/catégorie
+
+Exemples :
+- Marque "Levi's" + Catégorie "Jean" → styles = ["workwear", "casual"]
+- Marque "Stüssy" → styles = ["streetwear"]
+- Marque "Uniqlo" → styles = ["casual"]
+```
+
+**Avantage :** On peut commencer avec des produits partiellement tagués et améliorer progressivement
+
+---
+
+#### 3. Catégories et Styles : Tags flexibles (pas hiérarchie stricte)
+
+**Décision :** Un produit peut avoir plusieurs catégories/styles
+
+**Raison :** Reflète la réalité (une veste Carhartt = workwear + streetwear)
+
+**Exemple :**
+```json
+{
+  "name": "Veste en jean Carhartt",
+  "category": "Veste",
+  "styles": ["workwear", "streetwear"]
+}
+```
+
+---
+
+#### 4. Exemples de produits (validés)
+
+**Dataset de validation :**
+1. Veste utilitaire Arket - 159$ - Catégorie : Veste - Style : casual - Tailles : XS, S, M, L, XL
+2. Jordan 1 smoke grey - 190$ - Catégorie : Basket - Style : streetwear - Tailles : 43-45
+3. Pantalon barrel Uniqlo - 40$ - Catégorie : Pantalon - Style : casual - Tailles : XS-XXL
+4. Veste en jean Carhartt - 140$ - Catégorie : Veste - Style : workwear - Tailles : XS-XXL
+5. Ceinture Diesel - 159$ - Catégorie : Ceinture - Style : streetwear - Taille unique
+6. Hoodie Uniqlo - 40$ - Catégorie : Pull - Style : casual - Tailles : XS-XL
+7. Veste velours Stüssy - 200$ - Catégorie : Veste - Style : streetwear - Tailles : XS-XL
+8. Cardigan Uniqlo - 50$ - Catégorie : Pull - Style : casual - Tailles : XS-XL - Couleurs : rouge, noir, bleu, beige, gris, marron
+9. Bague Margiela - 190$ - Catégorie : Bijoux - Style : streetwear/luxe - Tailles : 50mm, 55mm, 60mm
+10. Beanie Stüssy - 70$ - Catégorie : Accessoire - Style : streetwear - Taille unique
+
+**Observations :**
+- Variété de prix : 40$ - 200$ ✅
+- Variété de styles : casual, streetwear, workwear, luxe ✅
+- Variété de catégories : vêtements, chaussures, accessoires, bijoux ✅
+- Marques variées : Uniqlo (accessible), Stüssy (streetwear), Margiela (luxe) ✅
 
 ---
 
