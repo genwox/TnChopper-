@@ -20,7 +20,6 @@ Chopper/
 
 Toute la documentation se trouve dans **[`docs/`](./docs/)**
 
-- **[Cadre pédagogique](./docs/CADRE_PEDAGOGIQUE.md)** : Règles de collaboration et approche d'apprentissage
 - **[Questions produit](./docs/QUESTIONS_PRODUIT.md)** : Décisions métier et architecture
 - **[Product Schema](./docs/PRODUCT_SCHEMA.md)** : Structure de données produit (JSON)
 - **[Progression](./docs/PROGRESSION.md)** : État d'avancement et prochaines étapes ⭐

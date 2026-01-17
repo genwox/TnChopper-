@@ -55,3 +55,10 @@ logs/
 # OS files
 .DS_Store
 Thumbs.db
+
+# Claude Code - fichiers personnels d'instructions IA
+.claude/
+.clinerules
+*.claude.md
+.cursorrules
+docs/CADRE_PEDAGOGIQUE.md
