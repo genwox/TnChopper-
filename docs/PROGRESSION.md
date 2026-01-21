@@ -7,8 +7,8 @@ Ce fichier trackera l'avancement étape par étape.
 ## 🎯 Étapes globales (selon CADRE_PEDAGOGIQUE.md)
 
 1. ✅ **Compréhension du problème métier**
-2. 🔄 **Modélisation des données** (en cours)
-3. ⏳ **API simple (sans IA)**
+2. ✅ **Modélisation des données**
+3. ✅ **API simple (sans IA)** - Phase 1 terminée !
 4. ⏳ **Recommandation basée sur des règles**
 5. ⏳ **Chatbot comme interface**
 6. ⏳ **IA avancée (embeddings, vision)**
@@ -17,6 +17,72 @@ Ce fichier trackera l'avancement étape par étape.
 ---
 
 ## 📅 Historique détaillé
+
+### 2026-01-21 - Session 3 : API ProductsController
+
+#### ✅ ProductsController créé
+- [x] Dossier `Controllers/` créé
+- [x] Fichier `ProductsController.cs` créé
+- [x] Endpoint `GET /api/products` (liste tous les produits)
+- [x] Endpoint `GET /api/products/{id}` (un produit par ID)
+- [x] Gestion du 404 si produit non trouvé
+- [x] Utilisation de async/await avec Entity Framework
+
+#### ✅ Configuration Program.cs
+- [x] Ajout `builder.Services.AddControllers()`
+- [x] Ajout `app.MapControllers()`
+- [x] Correction `appsettings.Development.json` (JSON invalide)
+
+#### ✅ Tests manuels
+- [x] API testée et fonctionnelle
+- [x] `GET /api/products` retourne les 50 produits
+- [x] `GET /api/products/1` retourne un produit
+- [x] `GET /api/products/9999` retourne 404
+
+#### 📚 Concepts appris cette session
+- Structure d'un Controller ASP.NET Core (attributs, héritage ControllerBase)
+- Injection de dépendances via constructeur
+- Différence entre `[HttpGet]` et `[HttpGet("{id}")]`
+- Async/await avec Entity Framework (`ToListAsync()`, `FindAsync()`)
+- Gestion des erreurs HTTP (`NotFound()`, `Ok()`)
+- Route `[Route("api/[controller]")]` et convention de nommage
+- Principe YAGNI (ne pas over-engineer trop tôt)
+
+---
+
+### 2025-01-18 - Session 2 : Schema SQL + Dataset
+
+#### ✅ Base de données
+- [x] Création `database/schema.sql`
+- [x] Table `products` avec tous les champs du PRODUCT_SCHEMA.md
+- [x] Types PostgreSQL : VARCHAR, NUMERIC(10,2), TEXT[], TIMESTAMP
+- [x] Contraintes : NOT NULL, CHECK (price > 0), CHECK (sizes non vide)
+- [x] Index : brand, price, GIN sur category/styles
+- [x] Trigger : mise à jour automatique de `updated_at`
+- [x] Exemples d'insertion commentés
+
+#### ✅ Dataset produits
+- [x] Création `data/products.json` (50 produits)
+- [x] Répartition : 15 hauts, 8 vestes, 10 bas, 10 chaussures, 7 accessoires
+- [x] Marques variées : Uniqlo, Arket, COS, Stüssy, Carhartt WIP, Nike, Jordan, etc.
+- [x] Styles couverts : casual, streetwear, workwear, elegant, sportswear, luxe, minimaliste
+- [x] Prix : 12.99€ à 349€ (budget à premium)
+- [x] URLs réelles ajoutées manuellement
+
+#### ✅ Supabase
+- [x] Projet créé sur Supabase
+- [x] Schema SQL exécuté (`database/schema.sql`)
+- [x] 50 produits insérés (`database/seed.sql`)
+
+#### ✅ API ASP.NET Core
+- [x] Projet créé (`src/Chopper.Api`)
+- [x] Packages NuGet installés (Npgsql, EF Core)
+- [x] Modèle `Product.cs` créé
+- [x] DbContext configuré (`Data/AppDbContext.cs`)
+- [x] Connection string configurée (`appsettings.Development.json`)
+- [x] **ProductsController** créé et fonctionnel
+
+---
 
 ### 2025-01-17 - Session 1 : Fondations
 
@@ -48,23 +114,23 @@ Ce fichier trackera l'avancement étape par étape.
 
 ## 📍 Où on en est MAINTENANT
 
-### 🔄 Étape en cours : Modélisation base de données
+### ✅ Phase 1 terminée !
 
 **Dernière action complétée :**
-✅ Définition schema JSON produit (PRODUCT_SCHEMA.md créé)
+✅ API fonctionnelle avec endpoints GET /api/products et GET /api/products/{id}
 
-**Prochaine étape :**
-🎯 **Créer le schema SQL PostgreSQL**
+**Prochaine étape (Phase 2) :**
+🎯 **Logique de recommandation simple**
 
-**Pourquoi cette étape :**
-- Transformer le JSON en tables PostgreSQL
-- Comprendre types de données SQL (TEXT, DECIMAL, ARRAY)
-- Définir contraintes et index
-- Préparer la structure pour Supabase
+**Options pour la Phase 2 :**
+- Ajouter des filtres (par style, par budget, par marque)
+- Ajouter la pagination
+- Commencer la logique de recommandation
 
-**Fichiers à créer :**
-- `schema.sql` ou `database/schema.sql`
-- Tables : `products` (et potentiellement `users`, `interactions` plus tard)
+**Ce qui fonctionne actuellement :**
+- `GET http://localhost:5170/api/products` → Liste des 50 produits
+- `GET http://localhost:5170/api/products/{id}` → Un produit spécifique
+- Gestion 404 si produit non trouvé
 
 ---
 
@@ -74,11 +140,11 @@ Ce fichier trackera l'avancement étape par étape.
 
 Quand tu reviens sur le projet, écris :
 
-> "Projet Chopper : reprendre à l'étape schema SQL PostgreSQL. Lis CADRE_PEDAGOGIQUE.md et PRODUCT_SCHEMA.md pour le contexte."
+> "Projet Chopper : Phase 1 terminée. API fonctionne. Prêt pour Phase 2 (filtres/recommandations)."
 
 Ou simplement :
 
-> "Chopper : suite = SQL"
+> "Chopper : suite = Phase 2 (filtres ou pagination)"
 
 ---
 
@@ -109,20 +175,22 @@ Ou simplement :
 
 ## 🎯 Prochaines étapes (roadmap)
 
-### Court terme (cette semaine ?)
-1. **Schema SQL PostgreSQL** ← NEXT
-2. **Dataset 50 produits** (JSON)
-3. **Setup Supabase** (création projet + tables)
+### ✅ Phase 1 - TERMINÉE
+1. ✅ Schema SQL PostgreSQL
+2. ✅ Dataset 50 produits
+3. ✅ Setup Supabase
+4. ✅ API ASP.NET Core (structure projet)
+5. ✅ Endpoints basiques (GET /api/products, GET /api/products/{id})
 
-### Moyen terme
-4. **API ASP.NET Core** (structure projet)
-5. **Endpoints basiques** (GET /products, GET /products/:id)
-6. **Logique de recommandation simple** (filtres budget/style)
+### Phase 2 - À VENIR
+6. **Filtres** (par style, budget, marque) ← NEXT
+7. **Pagination** (ne pas retourner 50 produits d'un coup)
+8. **Logique de recommandation simple**
 
-### Long terme
-7. **Chatbot interface** (intégration LLM)
-8. **IA embeddings** (similarité vectorielle)
-9. **Automatisation** (APIs externes)
+### Phase 3+ - Long terme
+9. **Chatbot interface** (intégration LLM)
+10. **IA embeddings** (similarité vectorielle)
+11. **Automatisation** (APIs externes)
 
 ---
 
@@ -139,5 +207,5 @@ Ou simplement :
 
 ---
 
-**Dernière mise à jour :** 2025-01-17 (Session 1)
-**Prochaine session :** Schema SQL PostgreSQL
+**Dernière mise à jour :** 2026-01-21 (Session 3)
+**Prochaine session :** Phase 2 - Filtres et/ou pagination

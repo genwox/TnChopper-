@@ -1,0 +1,6 @@
+@Chopper.Api_HostAddress = http://localhost:5170
+
+GET {{Chopper.Api_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
