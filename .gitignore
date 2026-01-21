@@ -60,5 +60,6 @@ Thumbs.db
 .claude/
 .clinerules
 *.claude.md
+CLAUDE.md
 .cursorrules
 docs/CADRE_PEDAGOGIQUE.md
