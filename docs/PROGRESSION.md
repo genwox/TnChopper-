@@ -18,6 +18,36 @@ Ce fichier trackera l'avancement étape par étape.
 
 ## 📅 Historique détaillé
 
+### 2026-01-23 - Session 4 : Pagination
+
+#### ✅ Classe PaginatedResponse créée
+- [x] Dossier `Responses/` créé
+- [x] Fichier `PaginatedResponse.cs` créé
+- [x] Classe générique `<T>` réutilisable pour toute entité
+- [x] Propriétés : Data, PageNum, PageSize, TotalCount, TotalPages
+- [x] Calcul automatique de TotalPages (arrondi vers le haut)
+
+#### ✅ ProductsController modifié
+- [x] Endpoint `GET /api/products` supporte maintenant la pagination
+- [x] Paramètres query : `pageNum` (défaut: 1), `pageSize` (défaut: 10)
+- [x] Utilisation de `Skip()` et `Take()` pour la pagination côté DB
+- [x] Retourne `PaginatedResponse<Product>` avec métadonnées
+
+#### ✅ Tests manuels
+- [x] `/api/products` → page 1, 10 produits (défaut)
+- [x] `/api/products?pageNum=2&pageSize=10` → page 2
+- [x] `/api/products?pageSize=5` → 5 produits par page
+- [x] `/api/products?pageNum=6&pageSize=10` → page vide (au-delà des données)
+
+#### 📚 Concepts appris cette session
+- Classe générique C# (`<T>`)
+- Query parameters avec `[FromQuery]` et valeurs par défaut
+- Pagination avec Entity Framework : `Skip()`, `Take()`, `CountAsync()`
+- Structure de réponse paginée (data + métadonnées)
+- Formule d'arrondi vers le haut : `(total + size - 1) / size`
+
+---
+
 ### 2026-01-21 - Session 3 : API ProductsController
 
 #### ✅ ProductsController créé
@@ -114,22 +144,23 @@ Ce fichier trackera l'avancement étape par étape.
 
 ## 📍 Où on en est MAINTENANT
 
-### ✅ Phase 1 terminée !
+### 🔄 Phase 2 en cours - Pagination terminée !
 
 **Dernière action complétée :**
-✅ API fonctionnelle avec endpoints GET /api/products et GET /api/products/{id}
+✅ Pagination implémentée avec `PaginatedResponse<T>` générique
 
-**Prochaine étape (Phase 2) :**
-🎯 **Logique de recommandation simple**
+**Prochaine étape (Phase 2 suite) :**
+🎯 **Ajouter les filtres** (style, budget, marque, catégorie)
 
-**Options pour la Phase 2 :**
-- Ajouter des filtres (par style, par budget, par marque)
-- Ajouter la pagination
-- Commencer la logique de recommandation
+**Améliorations possibles (optionnel) :**
+- Validation des paramètres (pageNum < 0, pageSize > 100)
+- Tri des résultats (par prix, par nom)
 
 **Ce qui fonctionne actuellement :**
-- `GET http://localhost:5170/api/products` → Liste des 50 produits
-- `GET http://localhost:5170/api/products/{id}` → Un produit spécifique
+- `GET /api/products` → Page 1, 10 produits (défaut)
+- `GET /api/products?pageNum=2&pageSize=10` → Page 2, 10 produits
+- `GET /api/products?pageSize=5` → 5 produits par page
+- `GET /api/products/{id}` → Un produit spécifique
 - Gestion 404 si produit non trouvé
 
 ---
@@ -140,11 +171,11 @@ Ce fichier trackera l'avancement étape par étape.
 
 Quand tu reviens sur le projet, écris :
 
-> "Projet Chopper : Phase 1 terminée. API fonctionne. Prêt pour Phase 2 (filtres/recommandations)."
+> "Chopper : suite = Phase 2 (filtres)"
 
-Ou simplement :
+Ou plus détaillé :
 
-> "Chopper : suite = Phase 2 (filtres ou pagination)"
+> "Projet Chopper : Pagination terminée. Prêt pour ajouter les filtres (style, budget, marque)."
 
 ---
 
@@ -182,9 +213,9 @@ Ou simplement :
 4. ✅ API ASP.NET Core (structure projet)
 5. ✅ Endpoints basiques (GET /api/products, GET /api/products/{id})
 
-### Phase 2 - À VENIR
-6. **Filtres** (par style, budget, marque) ← NEXT
-7. **Pagination** (ne pas retourner 50 produits d'un coup)
+### Phase 2 - EN COURS
+6. ✅ **Pagination** (Skip/Take, PaginatedResponse générique)
+7. **Filtres** (par style, budget, marque) ← NEXT
 8. **Logique de recommandation simple**
 
 ### Phase 3+ - Long terme
@@ -207,5 +238,5 @@ Ou simplement :
 
 ---
 
-**Dernière mise à jour :** 2026-01-21 (Session 3)
-**Prochaine session :** Phase 2 - Filtres et/ou pagination
+**Dernière mise à jour :** 2026-01-23 (Session 4)
+**Prochaine session :** Phase 2 - Filtres (style, budget, marque)
